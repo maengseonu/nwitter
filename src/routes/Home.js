@@ -1,34 +1,35 @@
 import {
   addDoc,
   collection,
-  getDocs,
-  QuerySnapshot,
+  onSnapshot,
+  orderBy,
+  query,
 } from "@firebase/firestore";
 import React, { useEffect } from "react";
 import { useState } from "react/cjs/react.development";
 import { db } from "../fbase";
 
-const Home = () => {
+const Home = ({ userObj }) => {
   const [nweet, setNweet] = useState("");
   const [nweets, setNweets] = useState([]);
-  const getNweets = async () => {
-    const querySnapshot = await getDocs(collection(db, "Nweets"));
-    querySnapshot.forEach((doc) => {
-      const nweetObject = {
-        ...doc.data(),
-        id: doc.id,
-      };
-      setNweets((prev) => [nweetObject, ...prev]);
-    });
-  };
   useEffect(() => {
-    getNweets();
+    const q = query(collection(db, "Nweets"), orderBy("createdAt"));
+    onSnapshot(q, (querySnapshot) => {
+      const nweetArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setNweets(nweetArray);
+    });
   }, []);
+
   const onSubmit = async (event) => {
     event.preventDefault();
     await addDoc(collection(db, "Nweets"), {
-      nweet,
-      createAt: Date.now(),
+      text: nweet,
+      createdAt: Date.now(),
+      creatorId: userObj.uid,
     });
     setNweet("");
   };
@@ -38,7 +39,6 @@ const Home = () => {
     } = event;
     setNweet(value);
   };
-  console.log(nweets);
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -54,7 +54,7 @@ const Home = () => {
       <div>
         {nweets.map((nweet) => (
           <div key={nweet.id}>
-            <h4>{nweet.nweet}</h4>
+            <h4>{nweet.text}</h4>
           </div>
         ))}
       </div>
