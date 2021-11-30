@@ -11,8 +11,11 @@ import Nweet from "../components/Nweet";
 import { db } from "../fbase";
 
 const Home = ({ userObj }) => {
-  const [nweet, setNweet] = useState("");
-  const [nweets, setNweets] = useState([]);
+  const [nweet, setNweet] = useState(""); // 데이터 추가
+
+  const [nweets, setNweets] = useState([]); // 데이터 일기
+
+  const [attachment, setAttachment] = useState(); // 업로드 파일
 
   // 리얼타임으로 느윗 데이터 읽기
   useEffect(() => {
@@ -46,6 +49,23 @@ const Home = ({ userObj }) => {
     setNweet(value);
   };
 
+  //업로드 파일 미리보기
+  const onFileChange = (event) => {
+    const {
+      target: { files },
+    } = event;
+    const theFile = files[0];
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
+    };
+    reader.readAsDataURL(theFile);
+  };
+  const onClearAttachment = () => setAttachment(null);
+
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -56,7 +76,14 @@ const Home = ({ userObj }) => {
           placeholder="어떤 생각을 하고 있으세요?"
           maxLength={120}
         />
+        <input type="file" accept="image/*" onChange={onFileChange} />
         <input type="submit" value="Nweet" />
+        {attachment && (
+          <div>
+            <img src={attachment} width="50px" height="50px" />
+            <button onClick={onClearAttachment}>Clear</button>
+          </div>
+        )}
       </form>
       <div>
         {nweets.map((nweet) => (
