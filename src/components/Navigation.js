@@ -8,7 +8,7 @@ const Navigation = () => (
         <Link to="/">홈</Link>
       </li>
       <li>
-        <Link to="/profile">나의 프로필</Link>
+        <Link to="/Profile">나의 프로필</Link>
       </li>
     </ul>
   </nav>

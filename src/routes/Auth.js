@@ -13,6 +13,8 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
   const [error, setError] = useState("");
+
+  // 로그인 폼 작성
   const onChange = (event) => {
     const {
       target: { name, value },
@@ -23,6 +25,8 @@ const Auth = () => {
       setPassword(value);
     }
   };
+
+  // 계정생성 및 로그인 정보 제출
   const onSubmit = async (event) => {
     const auth = getAuth();
     event.preventDefault();
@@ -36,7 +40,11 @@ const Auth = () => {
       setError(error.message);
     }
   };
+
+  // 계정 생성, 로그인 토글
   const toggleAccount = () => setNewAccount((prev) => !prev);
+
+  // 소셜 로그인
   const onSocialClick = async (event) => {
     const {
       target: { name },
