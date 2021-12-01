@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { collection, onSnapshot, orderBy, query } from "@firebase/firestore";
-import { useState } from "react/cjs/react.development";
 import Nweet from "../components/Nweet";
 import { db } from "../fbase";
 import NweetFactory from "../components/NweetFactory";

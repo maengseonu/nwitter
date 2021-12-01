@@ -2,8 +2,7 @@ import { deleteDoc, doc, updateDoc } from "@firebase/firestore";
 import { deleteObject, ref } from "@firebase/storage";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { useState } from "react/cjs/react.development";
+import React, { useState } from "react";
 import { db, storage } from "../fbase";
 
 const Nweet = ({ nweetObj, isOwner }) => {

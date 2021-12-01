@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
 import { useHistory } from "react-router";
 import {
@@ -9,7 +9,6 @@ import {
   where,
 } from "@firebase/firestore";
 import { db } from "../fbase";
-import { useState } from "react/cjs/react.development";
 
 const Profile = ({ userObj, refreshUser }) => {
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
